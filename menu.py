@@ -1,3 +1,6 @@
+from prettytable import PrettyTable
+
+
 class MenuItem:
     """Models each menu item."""
     def __init__(self, name, water, milk, coffee, cost):
@@ -19,12 +22,24 @@ class Menu:
             MenuItem(name="cappuccino", water=250, milk=50, coffee=24, cost=3)
         ]
 
-    def get_items(self):
-        """Returns all the names of the available menu items"""
-        options = ""
-        for item in self.menu:
-            options += f"{item.name}/"
-        return options
+    def get_items(self, currency, in_pretty_table_format):
+        """Returns all the names of the available menu items in PrettyTable"""
+        if not in_pretty_table_format:
+            options = ""
+            for item in self.menu:
+                options += f"{item.name}/"
+            return options
+        else:
+            drinks = []
+            costs = []
+            for item in self.menu:
+                drinks.append(item.name)
+                costs.append(f"{currency}{item.cost}")
+            table = PrettyTable()
+            table.title = "MENU"
+            table.add_column("Drink", drinks)
+            table.add_column("Price", costs)
+            return table
 
     def find_drink(self, order_name):
         """Searches the menu for a particular drink by name. Returns that item if it exists, otherwise returns None"""

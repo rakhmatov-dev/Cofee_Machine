@@ -1,3 +1,6 @@
+from prettytable import PrettyTable
+
+
 class CoffeeMaker:
     """Models the machine that makes the coffee"""
     def __init__(self):
@@ -7,11 +10,26 @@ class CoffeeMaker:
             "coffee": 100,
         }
 
-    def report(self):
+    def report(self, money_machine, in_pretty_table_format):
         """Prints report of all resources"""
-        print(f"Water: {self.resources['water']}ml")
-        print(f"Milk: {self.resources['milk']}ml")
-        print(f"Coffee: {self.resources['coffee']}g")
+        if not in_pretty_table_format:
+            print(f"Water: {self.resources['water']}ml")
+            print(f"Milk: {self.resources['milk']}ml")
+            print(f"Coffee: {self.resources['coffee']}g")
+        else:
+            table = PrettyTable()
+            table.title = "REPORT"
+            table.add_column("Recourse", ["Water", "Milk", "Coffee", "Money"])
+            table.add_column("Stocks", [f"{self.resources['water']}ml", f"{self.resources['milk']}ml", f"{self.resources['coffee']}g", f"{money_machine.CURRENCY}{money_machine.profit}"])
+            # table.add_rows(
+            #     [
+            #         ["Water", f"{self.resources['water']}ml"],
+            #         ["Milk", f"{self.resources['milk']}ml"],
+            #         ["Coffee", f"{self.resources['coffee']}g"],
+            #         ["Money", f"{money_machine.CURRENCY}{money_machine.profit}"]
+            #     ]
+            # )
+            print(table)
 
     def is_resource_sufficient(self, drink):
         """Returns True when order can be made, False if ingredients are insufficient."""
